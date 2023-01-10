@@ -1,0 +1,32 @@
+version: '2'
+services:
+  mariadb-b12:
+    restart: always
+    image: docker.io/bitnami/mariadb:10.6
+    volumes:
+      - 'mariadb_data-b12:/bitnami/mariadb'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MARIADB_USER=bn_wordpress
+      - MARIADB_DATABASE=bitnami_wordpress
+  wordpress-b12:
+    restart: always
+    image: docker.io/bitnami/wordpress:6
+    ports:
+      - '717:8080'
+      - '1817:8443'
+    volumes:
+      - 'wordpress_data-b12:/bitnami/wordpress'
+    depends_on:
+      - mariadb-b12
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - WORDPRESS_DATABASE_HOST=mariadb-b12
+      - WORDPRESS_DATABASE_PORT_NUMBER=3306
+      - WORDPRESS_DATABASE_USER=bn_wordpress
+      - WORDPRESS_DATABASE_NAME=bitnami_wordpress
+volumes:
+  mariadb_data-b12:
+    driver: local
+  wordpress_data-b12:
+    driver: local
