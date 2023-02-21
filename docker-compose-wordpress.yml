@@ -1,34 +1,32 @@
 version: '2'
-
 services:
-  db:
-    image: mariadb:10.1
-    environment:
-      MYSQL_ROOT_PASSWORD: your_mysql_root_password   #数据库超级用户密码
-      MYSQL_USER: neoxu   #filerun数据库账户
-      MYSQL_PASSWORD: your_filerun_password   #filerun数据库密码
-      MYSQL_DATABASE: filerun   #filerun数据库名称
+  mariadb-777:
+    restart: always
+    image: docker.io/bitnami/mariadb:10.6
     volumes:
-      - /data/docker-img/filerun/db:/var/lib/mysql   #数据库存放的卷
-
-  web:
-    image: afian/filerun
+      - 'mariadb_data-777:/bitnami/mariadb'
     environment:
-      FR_DB_HOST: db
-      FR_DB_PORT: 3306
-      FR_DB_NAME: filerun   #上面的filerun数据库名称
-      FR_DB_USER: neoxu   #上面的filerun数据库账户
-      FR_DB_PASS: your_filerun_password   #上面的filerun数据库密码
-      APACHE_RUN_USER: www-data
-      APACHE_RUN_USER_ID: 33
-      APACHE_RUN_GROUP: www-data
-      APACHE_RUN_GROUP_ID: 33
-    depends_on:
-      - db
-    links:
-      - db:db
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MARIADB_USER=bn_wordpress
+      - MARIADB_DATABASE=bitnami_wordpress
+  wordpress-777:
+    restart: always
+    image: docker.io/bitnami/wordpress:6
     ports:
-      - "8083:80"   #左边的8083端口就是要开放到公网访问的端口，为了避免80端口冲突，我这里映射到8083端口
+      - '777:8080'
+      - '1777:8443'
     volumes:
-      - /data/docker-img/filerun/html:/var/www/html
-      - /data/docker-img/filerun/user-files:/user-files
+      - 'wordpress_data-777:/bitnami/wordpress'
+    depends_on:
+      - mariadb-777
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - WORDPRESS_DATABASE_HOST=mariadb-777
+      - WORDPRESS_DATABASE_PORT_NUMBER=3306
+      - WORDPRESS_DATABASE_USER=bn_wordpress
+      - WORDPRESS_DATABASE_NAME=bitnami_wordpress
+volumes:
+  mariadb_data-777:
+    driver: local
+  wordpress_data-777:
+    driver: local
