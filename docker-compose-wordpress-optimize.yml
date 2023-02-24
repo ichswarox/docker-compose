@@ -7,7 +7,7 @@ services:
     ports:
       - "777:80"
     volumes:
-    - '/varnish-777/default.vcl:/etc/varnish/default.vcl'
+    - 'varnish-777/default.vcl:/etc/varnish/default.vcl'
     environment:
     - VARNISH_SIZE=1G
   mariadb-777:
