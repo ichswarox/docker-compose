@@ -1,15 +1,5 @@
 version: '2'
 services:
-    varnish-777:
-    image: varnish:stable
-    depends_on:
-      - "wordpress-777" 
-    ports:
-      - "777:80"
-    volumes:
-    - 'varnish-777/default.vcl:/etc/varnish/default.vcl'
-    environment:
-    - VARNISH_SIZE=1G
   mariadb-777:
     restart: always
     image: docker.io/bitnami/mariadb:10.6
@@ -40,6 +30,16 @@ services:
     restart: always
     ports:
       - "3777:11211"
+  varnish-777:
+    image: varnish:stable
+    depends_on:
+      - "wordpress-777" 
+    ports:
+      - "777:80"
+    volumes:
+      - '/var/lib/docker/volumes/varnish-777/default.vcl:/etc/varnish/default.vcl'
+    environment:
+      - VARNISH_SIZE=1G
 volumes:
   mariadb_data-777:
     driver: local
