@@ -1,1 +1,1 @@
-cd /root/www
+mkdir /root/www
