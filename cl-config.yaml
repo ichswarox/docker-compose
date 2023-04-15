@@ -17,7 +17,6 @@ dns:
   enable: true
 #主要监听定向转发来的数据，后续会在路由表里配置转发端口为1053
   listen: 0.0.0.0:1053
-  enhanced-mode: redir-host
 #见下方链接
   nameserver:
     - '114.114.114.114'
