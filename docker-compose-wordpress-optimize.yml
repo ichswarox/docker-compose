@@ -32,6 +32,7 @@ services:
       - "3777:11211"
   varnish-777:
     image: varnish:stable
+    restart: always
     depends_on:
       - "wordpress-777" 
     ports:
