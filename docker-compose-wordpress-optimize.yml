@@ -13,8 +13,8 @@ services:
     restart: always
     image: docker.io/bitnami/wordpress:6
     ports:
-      - '1777:8080'
-      - '2777:8443'
+      - '777:8080'
+      - '1777:8443'
     volumes:
       - 'wordpress_data-777:/bitnami/wordpress'
     depends_on:
@@ -29,14 +29,14 @@ services:
     image: docker.io/bitnami/memcached
     restart: always
     ports:
-      - "3777:11211"
+      - "2777:11211"
   varnish-777:
     image: varnish:stable
     restart: always
     depends_on:
       - "wordpress-777" 
     ports:
-      - "777:80"
+      - "3777:80"
     volumes:
       - '/var/lib/docker/volumes/varnish-777/default.vcl:/etc/varnish/default.vcl'
     environment:
