@@ -17,6 +17,7 @@ services:
       - '1777:8443'
     volumes:
       - 'wordpress_data-777:/bitnami/wordpress'
+      - 'root/wp.ini:/usr/local/etc/php/conf.d/wordpress.ini'
     depends_on:
       - mariadb-777
     environment:
