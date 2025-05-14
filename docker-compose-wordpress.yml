@@ -1,5 +1,12 @@
 version: '2'
 services:
+  redis-777:
+    image: 'redis:alpine'
+    ports:
+      - '6379:6379'
+    restart: always
+    ports:
+        - '6379'
   mariadb-777:
     restart: always
     image: docker.io/bitnami/mariadb:10.6
