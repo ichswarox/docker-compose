@@ -5,8 +5,6 @@ services:
     ports:
       - '6777:6379'
     restart: always
-    ports:
-        - '6379'
   mariadb-777:
     restart: always
     image: docker.io/bitnami/mariadb:10.6
@@ -28,6 +26,7 @@ services:
       - '/root/php.ini:/opt/bitnami/php/etc/php.ini'
     depends_on:
       - mariadb-777
+      - redis-777
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
       - WORDPRESS_DATABASE_HOST=mariadb-777
