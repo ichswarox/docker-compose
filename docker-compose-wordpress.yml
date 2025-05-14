@@ -11,7 +11,7 @@ services:
       - MARIADB_DATABASE=bitnami_wordpress
   wordpress-777:
     restart: always
-    image: docker.io/bitnami/wordpress:6
+    image: docker.io/bitnami/wordpress:6.8.1
     ports:
       - '777:8080'
       - '1777:8443'
