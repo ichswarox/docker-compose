@@ -3,7 +3,7 @@ services:
   redis-777:
     image: 'redis:alpine'
     ports:
-      - '6379:6379'
+      - '6777:6379'
     restart: always
     ports:
         - '6379'
