@@ -1,34 +1,30 @@
-version: '2'
 services:
-  mariadb-777:
+
+  wordpress665:
+    image: wordpress
     restart: always
-    image: docker.io/bitnami/mariadb:10.6
-    volumes:
-      - 'mariadb_data-777:/bitnami/mariadb'
-    environment:
-      - ALLOW_EMPTY_PASSWORD=yes
-      - MARIADB_USER=bn_wordpress
-      - MARIADB_DATABASE=bitnami_wordpress
-  wordpress-777:
-    restart: always
-    image: docker.io/bitnami/wordpress:6.8.2
     ports:
-      - '777:8080'
-      - '1777:8443'
-    volumes:
-      - 'wordpress_data-777:/bitnami/wordpress'
-      - '/root/wp.ini:/usr/local/etc/php/conf.d/wordpress.ini'
-      - '/root/php.ini:/opt/bitnami/php/etc/php.ini'
-    depends_on:
-      - mariadb-777
+      - 665:80
     environment:
-      - ALLOW_EMPTY_PASSWORD=yes
-      - WORDPRESS_DATABASE_HOST=mariadb-777
-      - WORDPRESS_DATABASE_PORT_NUMBER=3306
-      - WORDPRESS_DATABASE_USER=bn_wordpress
-      - WORDPRESS_DATABASE_NAME=bitnami_wordpress
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: exampleuser
+      WORDPRESS_DB_PASSWORD: examplepass
+      WORDPRESS_DB_NAME: exampledb
+    volumes:
+      - wordpress:/var/www/html
+      - /root/custom-php.ini:/usr/local/etc/php/conf.d/upload-overrides.ini
+
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: exampledb
+      MYSQL_USER: exampleuser
+      MYSQL_PASSWORD: examplepass
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+      - db:/var/lib/mysql
+
 volumes:
-  mariadb_data-777:
-    driver: local
-  wordpress_data-777:
-    driver: local
+  wordpress:
+  db:
